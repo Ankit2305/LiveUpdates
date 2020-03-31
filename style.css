@@ -1,0 +1,79 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+#curve_chart{
+    width: 100%;
+    height: 500px;
+    margin: auto;
+}
+
+#cases{
+    list-style-type: none;
+    display: grid;
+    width: 70%;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin: 40px auto;
+    text-align: center;
+    padding: 0;
+}
+
+#cases li{
+    margin: auto;
+    padding: 0;
+    align-self: baseline;
+    height: 100px;
+}
+
+span{
+    font-size: 2rem;
+    display: block;
+    opacity: 0.5;
+    font-weight: 300;
+}
+
+table{
+    margin: auto;
+    text-align: center;
+}
+
+tbody{
+    font-weight: 300;
+}
+
+th{
+    padding: 5px 20px;
+}
+
+.country{
+    text-align: left;
+    transition: 0.1s;
+}
+
+.country:hover{
+    color: red;
+    cursor: pointer;
+}
+
+@media (max-width: 750px){
+    #cases{
+        grid-template-columns: 1fr ;
+    }
+
+    table{
+        font-size: 0.8rem;
+    }
+
+    th{
+        padding: 5px 5px;
+    }
+
+    tr{
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
