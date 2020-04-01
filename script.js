@@ -82,7 +82,7 @@ function showCountryList(){
             setTimeout(() => { 
                 display(countryName);
                 scrollTo(0, 0);
-             }, 1);
+             }, 5);
         });
     }
 }
