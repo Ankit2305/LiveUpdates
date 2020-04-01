@@ -54,9 +54,7 @@ function drawChart() {
 
   chart.draw(data, options);
 
-  console.log("done");
   loading.style.display = "none";
-  console.log(loading.style.display);
   document.querySelector("body").style.backgroundColor = "white";
 }
 
@@ -78,11 +76,16 @@ function showCountryList(){
     for(var i=0;i<countries.length;i++){
         countries[i].addEventListener('click', function(){
             var countryName = this.textContent;
-            loading.style.display = "block";
-            setTimeout(() => { 
+            process()
+            .then(() => {
                 display(countryName);
                 scrollTo(0, 0);
-             }, 5);
+            });
         });
     }
 }
+
+var process = new Promise((resolution, reject) => {
+    loading.style.display = "block";
+    return resolution();
+});
