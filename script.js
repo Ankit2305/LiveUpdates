@@ -1,8 +1,7 @@
 var active = document.querySelector('#active'),
     confirmed = document.querySelector('#confirmed'),
     deaths = document.querySelector('#deaths'),
-    recovered = document.querySelector('#recovered'),
-    loading = document.querySelector('#rotate');
+    recovered = document.querySelector('#recovered');
 
 var coronaCasesData;
 var graphData = [], currentCountry = "";
@@ -13,25 +12,31 @@ fetch("https://pomber.github.io/covid19/timeseries.json")
   .then(data => {
     coronaCasesData = data;
     display('India');
+    showCountryList();
 });
 
   function display(country){
-      currentCountry = country;
-      var len = coronaCasesData[country].length - 1;
-      recovered.textContent = coronaCasesData[country][len].recovered;
-      confirmed.textContent = coronaCasesData[country][len].confirmed;
-      deaths.textContent = coronaCasesData[country][len].deaths;
-      active.textContent = coronaCasesData[country][len].confirmed - coronaCasesData[country][len].deaths - coronaCasesData[country][len].recovered;
+      return new Promise((resolve, reject) => {
+        currentCountry = country;
+        var len = coronaCasesData[country].length - 1;
+        recovered.textContent = coronaCasesData[country][len].recovered;
+        confirmed.textContent = coronaCasesData[country][len].confirmed;
+        deaths.textContent = coronaCasesData[country][len].deaths;
+        active.textContent = coronaCasesData[country][len].confirmed - coronaCasesData[country][len].deaths - coronaCasesData[country][len].recovered;
 
-      graphData = [];
-      if(coronaCasesData[country]){
-          graphData.push(['Date', 'Active Cases', 'Deaths', 'Recovered', 'Confirmed Cases']);
-          coronaCasesData[country].forEach(data => {
-            graphData.push([ data.date, data.confirmed - data.deaths - data.recovered, data.deaths, data.recovered, data.confirmed ]);
-          });
-          showCountryList();
-          drawChart();
-      }
+        graphData = [];
+        if(coronaCasesData[country]){
+            graphData.push(['Date', 'Active Cases', 'Deaths', 'Recovered', 'Confirmed Cases']);
+            coronaCasesData[country].forEach(data => {
+              graphData.push([ data.date, data.confirmed - data.deaths - data.recovered, data.deaths, data.recovered, data.confirmed ]);
+            });
+            drawChart();
+            resolve();
+        }
+        else 
+          reject("Something went wrong");
+      });
+      
   }
 
   //page no 257 - 271
@@ -53,9 +58,6 @@ function drawChart() {
   var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 
   chart.draw(data, options);
-
-  loading.style.display = "none";
-  document.querySelector("body").style.backgroundColor = "white";
 }
 
 function showCountryList(){
@@ -76,16 +78,9 @@ function showCountryList(){
     for(var i=0;i<countries.length;i++){
         countries[i].addEventListener('click', function(){
             var countryName = this.textContent;
-            process()
-            .then(() => {
-                display(countryName);
-                scrollTo(0, 0);
-            });
+            display(countryName);
+            scrollTo(0, 0);
         });
     }
 }
 
-var process = new Promise((resolution, reject) => {
-    loading.style.display = "block";
-    return resolution();
-});
