@@ -8,8 +8,9 @@ body{
 
 #curve_chart{
     width: 100%;
-    height: 500px;
+    min-height: 500px;
     margin: auto;
+    z-index: -1;
 }
 
 #cases{
@@ -39,6 +40,7 @@ span{
 table{
     margin: auto;
     text-align: center;
+    z-index: -1;
 }
 
 tbody{
@@ -52,11 +54,38 @@ th{
 .country{
     text-align: left;
     transition: 0.1s;
+    color: rgb(24, 102, 248);
 }
 
 .country:hover{
-    color: red;
+    color: rgb(238, 31, 31);
     cursor: pointer;
+}
+
+#rotate{
+    height: 30px;
+    width: 30px;
+    border: 5px solid gray;
+    border-top: 5px solid black;
+    border-radius: 50px;
+    animation: rotation 0.5s infinite linear;
+    position: fixed;
+    top: calc(50% - 15px);
+    left: calc(50% - 15px);
+    display: block;
+    z-index: 100;
+}
+
+@keyframes rotation{
+    0%{
+        transform: rotate(0deg);
+    }
+    50%{
+        transform: rotate(180deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
 }
 
 @media (max-width: 750px){

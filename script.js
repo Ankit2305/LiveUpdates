@@ -1,7 +1,8 @@
 var active = document.querySelector('#active'),
     confirmed = document.querySelector('#confirmed'),
     deaths = document.querySelector('#deaths'),
-    recovered = document.querySelector('#recovered');
+    recovered = document.querySelector('#recovered'),
+    loading = document.querySelector('#rotate');
 
 var coronaCasesData;
 var graphData = [], currentCountry = "";
@@ -40,6 +41,7 @@ google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
 
 function drawChart() {
+
   var data = google.visualization.arrayToDataTable(graphData);
 
   var options = {
@@ -51,6 +53,11 @@ function drawChart() {
   var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 
   chart.draw(data, options);
+
+  console.log("done");
+  loading.style.display = "none";
+  console.log(loading.style.display);
+  document.querySelector("body").style.backgroundColor = "white";
 }
 
 function showCountryList(){
@@ -71,8 +78,11 @@ function showCountryList(){
     for(var i=0;i<countries.length;i++){
         countries[i].addEventListener('click', function(){
             var countryName = this.textContent;
-            display(countryName);
-            scrollTo(0, 0);
+            loading.style.display = "block";
+            setTimeout(() => { 
+                display(countryName);
+                scrollTo(0, 0);
+             }, 1);
         });
     }
 }
